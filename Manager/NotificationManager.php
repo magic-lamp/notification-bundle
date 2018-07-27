@@ -68,12 +68,15 @@ class NotificationManager
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function addNotification(UserNotificationInterface $user, AbstractNotification $notification)
+    public function addNotification(UserNotificationInterface $user, AbstractNotification $notification, $noFlush = false)
     {
         $user->addNotification($notification);
         $this->om->persist($user);
-        $this->om->flush();
 
+        if (!$noFlush) {
+            $this->om->flush();    
+        }
+        
         return $notification;
     }
 
